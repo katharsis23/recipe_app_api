@@ -3,7 +3,7 @@ name: CI recipe app API
 on: 
   push:
     branches:
-      - main
+      - master
       - dev
 
 jobs:
