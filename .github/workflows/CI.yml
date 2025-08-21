@@ -1,0 +1,45 @@
+name: CI recipe app API
+
+on: 
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  test-lint:
+    name: Test, Lint, and Push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Preinstall docker-compose
+        run: sudo apt-get update && sudo apt-get install -y docker-compose 
+
+      - name: Run tests
+        run: docker-compose run --rm app sh -c "python3 manage.py test"
+      
+      - name: Run linting 
+        run: docker-compose run --rm app sh -c "flake8"
+      
+      - name: Build and tag docker image
+        run: |
+          IMAGE_NAME=${{ secrets.DOCKERHUB_USER }}/recipe-app
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then 
+              TAG=latest
+          else 
+              TAG=dev
+          fi 
+          docker build -t $IMAGE_NAME:$TAG .
+          echo "IMAGE_NAME=$IMAGE_NAME:$TAG" >> $GITHUB_ENV 
+
+      - name: Push Docker image
+        run: docker push ${{ env.IMAGE_NAME }}
+
