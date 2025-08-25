@@ -72,10 +72,19 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+from .config import config
+
+
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config.database_name,
+        'HOST': config.database_host,
+        'PORT': config.database_port,
+        'USER': config.database_user,
+        'PASSWORD': config.database_password,
     }
 }
 

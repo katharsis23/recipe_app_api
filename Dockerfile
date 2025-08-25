@@ -8,7 +8,7 @@ WORKDIR /app
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
 COPY ./app /app
-
+ 
 ARG DEV=false
 
 EXPOSE 8000
