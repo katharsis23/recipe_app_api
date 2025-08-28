@@ -2,12 +2,13 @@ FROM python:3.13.7-trixie
 LABEL maintainer="katharsis23"
 
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/recipe_app:$PYTHONPATH
 
-WORKDIR /app
+WORKDIR /recipe_app
 
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
-COPY ./app /app
+COPY ./recipe_app/ /recipe_app
  
 ARG DEV=false
 

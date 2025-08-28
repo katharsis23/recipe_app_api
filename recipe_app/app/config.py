@@ -14,11 +14,11 @@ class Database_Config(BaseSettings):
 
 config = Database_Config()
 
-print(config.database_name)
-print(config.database_host)
-print(config.database_password)
-print(config.database_user)
-print(config.database_port)
+#print(config.database_name)
+#print(config.database_host)
+#print(config.database_password)
+#print(config.database_user)
+#print(config.database_port)
 
 
     
